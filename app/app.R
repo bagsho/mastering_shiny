@@ -1,49 +1,17 @@
 library(shiny)
 
 ui <- fluidPage(
-    
-    sidebarLayout(
-        sidebarPanel(
-            numericInput("m", "Number of samples:", 2, min = 1, max = 100)
-        ),
-        mainPanel(
-            plotOutput("hist")
-        )
-    )
+    textInput("name", "What's your name?"),
+    textOutput("greeting")
 )
 
-ui <- fluidPage(
-    titlePanel("Central limit theorem"),
-    fluidRow(
-        column(4, 
-               sidebarPanel(
-                   numericInput("m", "Number of samples:", 2, min = 1, max = 100)
-               )
-        ),
-        column(8, 
-               sidebarPanel(
-                   numericInput("m", "Number of samples:", 2, min = 1, max = 100)
-               )
-        )
-    ),
-    fluidRow(
-        column(6, 
-               sidebarPanel(
-                   numericInput("m", "Number of samples:", 2, min = 1, max = 100)
-               )
-        ),
-        column(6, 
-               mainPanel(
-                   plotOutput("hist")
-        )
-    )
-))
-
 server <- function(input, output, session) {
-    output$hist <- renderPlot({
-        means <- replicate(1e4, mean(runif(input$m)))
-        hist(means, breaks = 20)
-    }, res = 96)
+    string <- reactive(paste0("Hello ", input$name, "!"))
+    
+    output$greeting <- renderText(string())
+    observeEvent(input$name, {
+        message("Greeting performed")
+    })
 }
 
 shinyApp(ui, server)
