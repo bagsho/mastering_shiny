@@ -6,12 +6,13 @@ ui <- fluidPage(
 )
 
 server <- function(input, output, session) {
-    string <- reactive(paste0("Hello ", input$name, "!"))
-    
-    output$greeting <- renderText(string())
-    observeEvent(input$name, {
-        message("Greeting performed")
-    })
+    # string <- reactive(paste0("Hello ", input$name, "!"))
+    # 
+    # output$greeting <- renderText(string())
+  output$greeting <- renderText(paste0("Hello ", input$name, "!"))
+    # observeEvent(input$name, {
+    #   message("Greeting performed")
+    # })
 }
 
 shinyApp(ui, server)
